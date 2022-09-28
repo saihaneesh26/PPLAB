@@ -2,6 +2,8 @@
 
 compilation:
 > gcc -fopenmp -o file_name file_name.c
+
+output
 > ./file_name
 
 change cores
