@@ -11,7 +11,7 @@ void vector_addn(int n,int *res,int * a,int *b)
 	for(int i=0;i<n;i++)
 	{
 		res[i] = a[i]+b[i];
-//		#pragma omp critical
+		#pragma omp critical
 		{
 			ops+=1;
 		}
