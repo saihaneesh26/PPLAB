@@ -8,3 +8,9 @@ output
 
 change cores
 > export OMP_NUM_THREADS=6
+
+
+---------
+MPI PROGMS
+compilation : mpicc prgm.c
+running : mpirun -n 2 ./a.out
