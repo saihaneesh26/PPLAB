@@ -13,6 +13,6 @@ change cores
 ---------
 MPI PROGMS
 compilation : mpicc prgm.c
-running : mpirun -n 2 ./a.out
+running : mpirun -np 2 ./a.out
 -----------
 ref: https://mpitutorial.com/tutorials/
