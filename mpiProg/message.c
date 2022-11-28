@@ -14,13 +14,13 @@ void main(argc, argv) int argc;char* argv[];
 	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 	
 	if(rank==0){
-		dest = 1;
-		source=1;
+		dest = 1; //setting dest as rank 1
+		//source=1;
 		rc = MPI_Send(&outmsg,strlen(outmsg),MPI_CHAR,dest,tag,MPI_COMM_WORLD); 
 	}
 	else if(rank==1){
-		dest = 0;
-		source=0;
+		//dest = 0;
+		source=0; // mentioning source as rank 0
 		rc = MPI_Recv(&inmsg,strlen(outmsg),MPI_CHAR,source,tag,MPI_COMM_WORLD,&stat);
 	}
 	rc = MPI_Get_count(&stat,MPI_CHAR,&count);
