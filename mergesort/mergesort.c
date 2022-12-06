@@ -1,53 +1,119 @@
-#include<stdio.h>
+// C program for Merge Sort
+#include <stdio.h>
+#include <stdlib.h>
 #include<omp.h>
-#include<stdlib.h>
-void merge(int a[],int i1,int j1,int i2,int j2)
+// Merges two subarrays of arr[].
+// First subarray is arr[l..m]
+// Second subarray is arr[m+1..r]
+void merge(int arr[], int l,
+		int m, int r)
 {
-	int temp[1000];
-	int i,j,k;
-	i = i1;j=i2;k=0;
-	while(i<=j1 && j<j2)
+	int i, j, k;
+	int n1 = m - l + 1;
+	int n2 = r - m;
+
+	// Create temp arrays
+	int L[n1], R[n2];
+
+	// Copy data to temp arrays
+	// L[] and R[]
+	for (i = 0; i < n1; i++)
+		L[i] = arr[l + i];
+	for (j = 0; j < n2; j++)
+		R[j] = arr[m + 1 + j];
+
+	// Merge the temp arrays back
+	// into arr[l..r]
+	// Initial index of first subarray
+	i = 0;
+
+	// Initial index of second subarray
+	j = 0;
+
+	// Initial index of merged subarray
+	k = l;
+	while (i < n1 && j < n2)
 	{
-		if(a[i]<a[j])
-			temp[k++] = a[i++];
-		else temp[k++] = a[j++];
+		if (L[i] <= R[j])
+		{
+			arr[k] = L[i];
+			i++;
+		}
+		else
+		{
+			arr[k] = R[j];
+			j++;
+		}
+		k++;
 	}
-	while(i<=j1) temp[k++]=a[i++];
-	while(j<=j2) temp[k++]=a[j++];
 
-	for(i=i1,j=0;i<=j2;i++,j++)
-		a[i]=temp[j];
-}
+	// Copy the remaining elements
+	// of L[], if there are any
+	while (i < n1) {
+		arr[k] = L[i];
+		i++;
+		k++;
+	}
 
-
-void mergesort(int a[],int i,int j)
-{
-int mid;
-if(i<j)
-{
-	mid = (i+j)/2;
-	#pragma omp parallel sections
+	// Copy the remaining elements of
+	// R[], if there are any
+	while (j < n2)
 	{
-		#pragma omp section
-		mergesort(a,i,mid);
-		#pragma omp section
-		mergesort(a,mid+1,j);
+		arr[k] = R[j];
+		j++;
+		k++;
 	}
-	merge(a,i,mid,mid+1,j);
-}
 }
 
+// l is for left index and r is
+// right index of the sub-array
+// of arr to be sorted
+void mergesort(int arr[],
+			int l, int r)
+{
+	if (l < r)
+	{
+		// Same as (l+r)/2, but avoids
+		// overflow for large l and h
+		int m = l + (r - l) / 2;
+		#pragma omp parallel sections
+		{
+		#pragma omp section
+		mergesort(arr, l, m);
+		#pragma omp section
+		mergesort(arr, m + 1, r);
+		}
+		merge(arr, l, m, r);
+	}
+}
+
+// UTILITY FUNCTIONS
+// Function to print an array
+void printArray(int A[], int size)
+{
+	int i;
+	for (i = 0; i < size; i++)
+		printf("%d ", A[i]);
+	printf("\n");
+}
+
+// Driver code
 void main()
 {
 	int *a,num,i;
-	scanf("enter num:%d",&num);
+	printf("enter number:");
+	scanf("%d",&num);
 	a = (int *)malloc(sizeof(int)*num);
-	for(i=0;i<num;i++) a[i]= rand()%100;
+	printf("array before sorting");
+	for(i=0;i<num;i++){
+	       	a[i]= rand()%100;
+		printf("%d ",a[i]);
+	}
 	double start = omp_get_wtime();
 	mergesort(a,0,num-1);
+	printf("\narray after sorting\n");
+	for(i =0;i<num;i++) printf("%d ",a[i]);
 	double end = omp_get_wtime();
 	double val = end - start;
-	printf("Time is:%f\n",val);
+	printf("\nTime is:%f\n",val);
 }
-
-
