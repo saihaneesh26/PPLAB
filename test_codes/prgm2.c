@@ -5,7 +5,7 @@
 #include<math.h>
 
 #define num_steps 1000000 //infinity assumption
-
+//assuming 8 threads - so threads array is having 8 length
 void main(){
     float pi=0;
     //serial
