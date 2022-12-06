@@ -68,39 +68,41 @@ void merge(int arr[], int l,
 // l is for left index and r is
 // right index of the sub-array
 // of arr to be sorted
-void mergesort(int arr[],
-			int l, int r)
-{
-	if (l < r)
-	{
-		// Same as (l+r)/2, but avoids
-		// overflow for large l and h
-		int m = l + (r - l) / 2;
-		#pragma omp parallel sections
-		{
-		#pragma omp section
-		mergesort(arr, l, m);
-		#pragma omp section
-		mergesort(arr, m + 1, r);
-		}
-		merge(arr, l, m, r);
-	}
+void mergesortParallel(int a[],int l,int h){
+    if(l<h){
+        int mid = l+(h-l)/2;
+        
+        #pragma omp parallel sections
+        {
+            #pragma omp section
+            mergesortParallel(a,l,mid);
+            
+            #pragma omp section
+            mergesortParallel(a,mid+1,h);
+        }
+        merge(a,l,mid,h);
+    }
 }
 
-// UTILITY FUNCTIONS
-// Function to print an array
-void printArray(int A[], int size)
-{
-	int i;
-	for (i = 0; i < size; i++)
-		printf("%d ", A[i]);
-	printf("\n");
+void mergesortSerial(int a[],int l,int h){
+    if(l<h){
+        int mid = l+(h-l)/2;
+        
+        #pragma omp parallel sections
+        {
+            #pragma omp section
+            mergesortSerial(a,l,mid);
+            
+            #pragma omp section
+            mergesortSerial(a,mid+1,h);
+        }
+        merge(a,l,mid,h);
+    }
 }
 
-// Driver code
-void main()
-{
-	int *a,num,i;
+
+void main(){
+    int *a,num,i;
 	printf("enter number:");
 	scanf("%d",&num);
 	a = (int *)malloc(sizeof(int)*num);
@@ -110,10 +112,16 @@ void main()
 		printf("%d ",a[i]);
 	}
 	double start = omp_get_wtime();
-	mergesort(a,0,num-1);
-	printf("\narray after sorting\n");
-	for(i =0;i<num;i++) printf("%d ",a[i]);
+	mergesortSerial(a,0,num-1);
 	double end = omp_get_wtime();
+    printf("\narray after sorting\n");
+	for(i =0;i<num;i++) printf("%d ",a[i]);
 	double val = end - start;
-	printf("\nTime is:%f\n",val);
+	printf("\nTime for serial is:%f\n",val);
+
+    start = omp_get_wtime();
+    mergesortParallel(a,0,num-1);
+    end = omp_get_wtime();
+    val = end-start;
+    printf("Time for parallel execution is %f\n",val);
 }
