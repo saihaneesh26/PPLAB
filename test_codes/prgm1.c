@@ -51,12 +51,12 @@ void mergesortSerial(int a[],int l,int h){
     if(l<h){
         int mid = l+(h-l)/2;
         
-        #pragma omp parallel sections
+        
         {
-            #pragma omp section
+            
             mergesortSerial(a,l,mid);
             
-            #pragma omp section
+            
             mergesortSerial(a,mid+1,h);
         }
         merge(a,l,mid,h);
