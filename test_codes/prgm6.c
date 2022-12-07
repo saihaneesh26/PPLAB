@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<omp.h>
+#inlcude "vec_addn_func.c"
 //compile using : gcc -fopenmp prgm6.c vect_addn_func.c
 //to run ./a.out in ubuntu and a in windows
 void main(){
