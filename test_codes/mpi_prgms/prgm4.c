@@ -27,6 +27,13 @@ void main(int argc,char * argv[]){
 		localprod *= val;
 		else break;
 	}
+	/*
+	//above for loop can be minimized
+	for(int i=(rank*len)+1;i<=((rank+1)*len);i++){
+        	if(i>n) break;
+        	locaprodl*=i;
+    	}
+	*/
 	printf("LOCAL PROF:%d\n",localprod);
 MPI_Reduce(&localprod,&global,1,MPI_INT,MPI_PROD,root,MPI_COMM_WORLD);
 if(rank==root)
