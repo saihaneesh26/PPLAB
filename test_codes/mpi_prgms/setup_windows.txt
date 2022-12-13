@@ -1,0 +1,10 @@
+install ubuntu on windows (WSL):
+ref : https://youtu.be/X-DHaQLrBi8
+
+then run following in ubuntu shell
+
+sudo apt-get update
+sudo apt-get install dos2unix
+sudo apt install mpich
+
+then u can run codes in that shell
