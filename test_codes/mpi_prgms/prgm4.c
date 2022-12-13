@@ -1,7 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<mpi.h>
-
+//do not give high input bcos the stack will overflow and no output will be seen (segmentation fault)
+//try n = 7 or 8
 void main(int argc,char * argv[]){
 	int n,rank,size;
 	scanf("%d",&n);
