@@ -8,3 +8,7 @@ sudo apt-get install dos2unix
 sudo apt install mpich
 
 then u can run codes in that shell
+
+
+method 2
+use Replit website 
