@@ -23,6 +23,7 @@ void main(int c,char *v[]){
         MPI_Recv(&in,1,MPI_INT,source,tag1,MPI_COMM_WORLD,&stat);
         MPI_Send(&out,1,MPI_INT,dest,tag2,MPI_COMM_WORLD);  
    }
+    printf("rank %d msg %d with tag %d from task %d\n",rank,in,stat.MPI_TAG,stat.MPI_SOURCE);
     MPI_Finalize();
 }
 /*
