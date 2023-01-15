@@ -9,7 +9,7 @@ int fib(int n){
         #pragma omp task shared(i) firstprivate(n)
         i = fib(n-1);
         
-        #pragma imp task shared(j) firstprivate(n)
+        #pragma omp task shared(j) firstprivate(n)
          j = fib(n-2);
         #pragma imp taskwait
         return i+j;
