@@ -3,17 +3,17 @@
 #include<omp.h>
 //fib
 int fib(int n){
-    int a=0,b=1,t;
-    #pragma omp parallel for  schedule(static,2) 
-    for(int i=0;i<n;i++){
-        #pragma omp critical
-        {
-            t = a+b;
-            a = b;
-            b = t;
-        }
+    int i,j;
+    if(n<2) return n;
+    else{
+        #pragma omp task shared(i) firstprivate(n)
+        i = fib(n-1);
+        
+        #pragma imp task shared(j) firstprivate(n)
+         j = fib(n-2);
+        #pragma imp taskwait
+        return i+j;
     }
-    return a;
 }
 void main(){
     int n = 20;
