@@ -23,7 +23,7 @@ void main(int argc,char* v[]){
 	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 	MPI_Comm_size(MPI_COMM_WORLD,&size);
 
-	int subsize = n/size;
+	int subsize = (n/size)+1;
 	int *ap = malloc(sizeof(int)*subsize);
 	int *bp = malloc(sizeof(int)*subsize);
 	int *cp = malloc(sizeof(int)*subsize);
